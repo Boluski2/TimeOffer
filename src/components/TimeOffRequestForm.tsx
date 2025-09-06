@@ -73,7 +73,7 @@ const requestSchema = z
     reason: z.string().optional(),
     excludeWeekends: z.boolean().optional(),
     excludeHolidays: z.boolean().optional(),
-    customExcludedDates: z.array(z.date()).default([]),
+    customExcludedDates: z.array(z.date()).optional().default([]),
   })
   .refine((data) => data.startDate <= data.endDate, {
     message: "Start date must be before end date",
