@@ -11,7 +11,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const { userId, sessionClaims } = await auth();
+  const { sessionClaims } = await auth();
 
   if (sessionClaims?.metadata?.role === "ADMIN") {
     redirect("/admin");
