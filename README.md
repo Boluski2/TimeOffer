@@ -6,7 +6,7 @@ A modern, full-stack SaaS application for managing employee time-off requests, a
 
 ## 🚀 Live Demo
 
-*   **Main Application:** [https://your-app.vercel.app](https://your-app.vercel.app)
+*   **Main Application:** [https://time-offer-nb4o.vercel.app/]
 *   **Employee Dashboard:** `/employee`
 *   **Admin Dashboard:** `/admin`
 

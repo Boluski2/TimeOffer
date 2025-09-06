@@ -81,7 +81,7 @@ export default async function Home() {
               <div className="flex items-center justify-center">
                 <div className="relative w-full max-w-md overflow-hidden rounded-lg shadow-lg">
                   <Image
-                    src="/dashboard-screenshot.jpg"
+                    src="/dashboard-screenshot.webp"
                     alt="Dashboard screenshot"
                     width={600}
                     height={400}
