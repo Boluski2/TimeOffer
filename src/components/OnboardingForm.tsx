@@ -259,7 +259,7 @@ const OnboardingForm = ({
                       <FormItem>
                         <FormLabel>First Name</FormLabel>
                         <FormControl>
-                          <Input {...field} disabled className="bg-gray-100" />
+                          <Input {...field}  className="bg-gray-100" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -272,7 +272,7 @@ const OnboardingForm = ({
                       <FormItem>
                         <FormLabel>Last Name</FormLabel>
                         <FormControl>
-                          <Input {...field} disabled className="bg-gray-100" />
+                          <Input {...field}  className="bg-gray-100" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -366,7 +366,7 @@ const OnboardingForm = ({
                           <FormControl>
                             <Input
                               {...field}
-                              disabled
+                              
                               className="bg-gray-100"
                             />
                           </FormControl>
@@ -383,7 +383,7 @@ const OnboardingForm = ({
                           <FormControl>
                             <Input
                               {...field}
-                              disabled
+                              
                               className="bg-gray-100"
                             />
                           </FormControl>
