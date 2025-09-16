@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Alert, AlertDescription } from "./ui/alert";
-import { updateCompanyProfile } from "@/lib/actions/admin-actions";
+import { updateCompanyProfile } from "@/api/admin-actions";
 import { toast } from "sonner";
 
 const companyProfileSchema = z.object({

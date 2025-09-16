@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import prisma from "../prisma";
+import prisma from "../lib/prisma";
 import { TimeOffType } from "@prisma/client";
 
 export async function createTimeOffRequest(formData: FormData) {

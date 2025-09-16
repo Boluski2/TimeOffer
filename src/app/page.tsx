@@ -11,13 +11,13 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const { sessionClaims } = await auth();
+  // const { sessionClaims } = await auth();
 
-  if (sessionClaims?.metadata?.role === "ADMIN") {
-    redirect("/admin");
-  } else if (sessionClaims?.metadata?.role === "EMPLOYEE") {
-    redirect("/employee");
-  }
+  // if (sessionClaims?.metadata?.role === "ADMIN") {
+  //   redirect("/admin");
+  // } else if (sessionClaims?.metadata?.role === "EMPLOYEE") {
+  //   redirect("/employee");
+  // }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -74,7 +74,7 @@ export default async function Home() {
                   <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none">
                     Effortless Time Off Management
                   </h1>
-                  <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 text-sm md:text-base">
+                  <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 text-sm ">
                     Streamline your company&apos;s time off requests, approvals,
                     and tracking all in one place.
                   </p>
@@ -117,7 +117,7 @@ export default async function Home() {
                 <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl">
                   Key Features
                 </h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 text-sm md:text-base">
+                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 text-sm ">
                   Everything you need to manage your time off requests,
                   approvals, and tracking all in one place.
                 </p>

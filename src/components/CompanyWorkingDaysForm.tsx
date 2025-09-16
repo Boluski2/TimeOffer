@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "./ui/alert";
 import { Checkbox } from "./ui/checkbox";
-import { updateCompanyWorkingDays } from "@/lib/actions/admin-actions";
+import { updateCompanyWorkingDays } from "@/api/admin-actions";
 const weekdays = [
   {
     label: "Monday",

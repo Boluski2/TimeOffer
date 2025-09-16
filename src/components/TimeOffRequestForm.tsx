@@ -43,7 +43,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Checkbox } from "./ui/checkbox";
-import { createTimeOffRequest } from "@/lib/actions/employee-actions";
+import { createTimeOffRequest } from "@/api/employee-actions";
 
 const getDaysBetween = (startDate: Date, endDate: Date) => {
   const days = [];

@@ -22,7 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { generateInvitationCode } from "@/lib/actions/admin-actions";
+import { generateInvitationCode } from "@/api/admin-actions";
 
 interface InvitationCodesProps {
   initialCodes: Code[];

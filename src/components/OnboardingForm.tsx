@@ -30,7 +30,7 @@ import { Separator } from "@/components/ui/separator";
 import { RadioGroup } from "@radix-ui/react-radio-group";
 import { RadioGroupItem } from "./ui/radio-group";
 import { cn } from "@/lib/utils";
-import { createAdmin, createEmployee } from "@/lib/actions/onboarding";
+import { createAdmin, createEmployee } from "@/api/onboarding";
 // import { set } from "date-fns";
 import { toast } from "sonner";
 
@@ -222,7 +222,7 @@ const OnboardingForm = ({
                   className={cn(
                     "flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground",
                     accountType === "employee" &&
-                      "bg-accent text-accent-foreground"
+                      "bg-black text-white"
                   )}
                 >
                   <span>Employee</span>
@@ -236,8 +236,12 @@ const OnboardingForm = ({
                 />
                 <Label
                   htmlFor="admin"
-                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground"
-                >
+                   className={cn(
+                    "flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground",
+                    accountType === "admin" &&
+                      "bg-black text-white"
+                  )}
+                  >
                   <span>Business Admin</span>
                 </Label>
               </div>
