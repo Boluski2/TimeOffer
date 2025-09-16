@@ -123,7 +123,8 @@ const OnboardingForm = ({
 
       if (response?.success) {
         console.log("Employee created successfully");
-        canRedirect = true;
+        // canRedirect = true;
+        window.location.href = '/employee';
       }
     } catch (error: unknown) {
       console.error(`Error creating employee: ${error}`);
@@ -163,7 +164,8 @@ const OnboardingForm = ({
 
       if (response?.success) {
         console.log("Admin created successfully");
-        canRedirect = true;
+        // canRedirect = true;
+        window.location.href = '/admin';
       }
     } catch (error) {
       console.error(`Error creating admin: ${error}`);
