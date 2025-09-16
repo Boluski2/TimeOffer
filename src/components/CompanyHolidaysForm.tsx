@@ -53,7 +53,7 @@ import {
   addCompanyHoliday,
   deleteCompanyHoliday,
   updateCompanyHoliday,
-} from "@/api/admin-actions";
+} from "@/lib/actions/admin-actions";
 
 const holidayFormSchema = z.object({
   name: z.string().min(1, "Holiday name is required"),

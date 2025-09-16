@@ -11,13 +11,13 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  // const { sessionClaims } = await auth();
+  const { sessionClaims } = await auth();
 
-  // if (sessionClaims?.metadata?.role === "ADMIN") {
-  //   redirect("/admin");
-  // } else if (sessionClaims?.metadata?.role === "EMPLOYEE") {
-  //   redirect("/employee");
-  // }
+  if (sessionClaims?.metadata?.role === "ADMIN") {
+    redirect("/admin");
+  } else if (sessionClaims?.metadata?.role === "EMPLOYEE") {
+    redirect("/employee");
+  }
 
   return (
     <div className="flex flex-col min-h-screen">

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { updateTimeOffRequestStatus } from "@/api/admin-actions";
+import { updateTimeOffRequestStatus } from "@/lib/actions/admin-actions";
 import { toast } from "sonner";
 
 const ApproveRejectButtons = ({ id }: { id: string }) => {

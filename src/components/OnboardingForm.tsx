@@ -30,7 +30,7 @@ import { useRouter } from "next/navigation";
 import { RadioGroup } from "@radix-ui/react-radio-group";
 import { RadioGroupItem } from "./ui/radio-group";
 import { cn } from "@/lib/utils";
-import { createAdmin, createEmployee } from "@/api/onboarding";
+import { createAdmin, createEmployee } from "@/lib/actions/onboarding";
 // import { set } from "date-fns";
 import { toast } from "sonner";
 
