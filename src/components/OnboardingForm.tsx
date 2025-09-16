@@ -370,7 +370,7 @@ const OnboardingForm = ({
                           <FormControl>
                             <Input
                               {...field}
-                              disabled
+                              // disabled
                               className="bg-gray-100"
                             />
                           </FormControl>
@@ -387,7 +387,7 @@ const OnboardingForm = ({
                           <FormControl>
                             <Input
                               {...field}
-                              disabled
+                              // disabled
                               className="bg-gray-100"
                             />
                           </FormControl>
