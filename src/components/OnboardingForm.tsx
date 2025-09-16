@@ -26,7 +26,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { RadioGroup } from "@radix-ui/react-radio-group";
 import { RadioGroupItem } from "./ui/radio-group";
 import { cn } from "@/lib/utils";
@@ -123,7 +123,7 @@ const OnboardingForm = ({
 
       if (response?.success) {
         console.log("Employee created successfully");
-        // canRedirect = true;
+        canRedirect = true;
         window.location.href = '/employee';
       }
     } catch (error: unknown) {
@@ -164,7 +164,7 @@ const OnboardingForm = ({
 
       if (response?.success) {
         console.log("Admin created successfully");
-        // canRedirect = true;
+        canRedirect = true;
         window.location.href = '/admin';
       }
     } catch (error) {
