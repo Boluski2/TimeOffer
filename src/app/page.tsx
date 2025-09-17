@@ -379,7 +379,7 @@ export default async function Home() {
                         Team Visibility
                       </h3>
                       <p className="text-gray-500 dark:text-gray-400 text-sm md:text-base">
-                        See who's out and when with the shared team calendar.
+                        See who&apos;s out and when with the shared team calendar.
                       </p>
                     </div>
                   </div>
@@ -394,7 +394,7 @@ export default async function Home() {
                         Custom Policies
                       </h3>
                       <p className="text-gray-500 dark:text-gray-400 text-sm md:text-base">
-                        Configure time off policies that match your company's specific requirements.
+                        Configure time off policies that match your company&apos;s specific requirements.
                       </p>
                     </div>
                   </div>
@@ -444,7 +444,7 @@ export default async function Home() {
                       </div>
                     </div>
                     <p className="text-gray-600">
-                      "TimeOffer has reduced our administrative workload by 70%. The team loves how easy it is to request time off."
+                      &quot;TimeOffer has reduced our administrative workload by 70%. The team loves how easy it is to request time off.&quot;
                     </p>
                   </div>
                 </CardContent>
@@ -460,7 +460,7 @@ export default async function Home() {
                       </div>
                     </div>
                     <p className="text-gray-600">
-                      "The analytics dashboard helps us plan resources effectively. We've eliminated scheduling conflicts entirely."
+                      &quot;The analytics dashboard helps us plan resources effectively. We&apos;ve eliminated scheduling conflicts entirely.&quot;
                     </p>
                   </div>
                 </CardContent>
@@ -476,7 +476,7 @@ export default async function Home() {
                       </div>
                     </div>
                     <p className="text-gray-600">
-                      "Approving time off requests used to take hours each week. Now it takes minutes. The mobile access is fantastic!"
+                      &quot;Approving time off requests used to take hours each week. Now it takes minutes. The mobile access is fantastic!&quot;
                     </p>
                   </div>
                 </CardContent>
