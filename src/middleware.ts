@@ -22,8 +22,6 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
 
   console.log(req.nextUrl.searchParams.get("onboardingCompleted"))
   
- if (isPublicRoute(req)) return NextResponse.next();
-  
 
   // Rest of your middleware logic for protected routes...
   if (userId && req.nextUrl.pathname === "/" && !sessionClaims?.metadata?.onboardingCompleted) {
