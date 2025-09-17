@@ -1,7 +1,14 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse} from "next/server";
 
-const isPublicRoute = createRouteMatcher(['/', "/api/webhooks/(.*)"]);
+// Add all public routes here
+const isPublicRoute = createRouteMatcher(['/', 
+    '/features',           
+  '/pricing',            
+  '/HowItWorks',           
+  '/contact',            
+  '/about',             
+  "/api/webhooks/(.*)"]);
 const isOnboardingRoute = createRouteMatcher(['/onboarding'])
 const isAdminRoute = createRouteMatcher(["/admin", "/admin/(.*)"])
 const isEmployeeRoute = createRouteMatcher(["/employee", "/employee/(.*)"])
@@ -16,6 +23,9 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
   console.log(req.nextUrl.searchParams.get("onboardingCompleted"))
   
 
+  
+
+  // Rest of your middleware logic for protected routes...
   if (userId && req.nextUrl.pathname === "/" && !sessionClaims?.metadata?.onboardingCompleted) {
     const onboardingUrl = new URL("/onboarding", req.url);
     return NextResponse.redirect(onboardingUrl);
