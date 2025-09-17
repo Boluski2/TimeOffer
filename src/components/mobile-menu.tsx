@@ -3,6 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { SignInButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
+import { SignedIn } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs";
+import { Button } from "./ui/button";
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +53,22 @@ export default function MobileMenu() {
             >
               Contact
             </Link>
+                  <div className="flex gap-2 md:gap-4">
+            <SignedOut>
+              <div className="md:block">
+                <SignInButton>
+                  <Button variant="ghost" className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 text-white border-2 border-blue-700 shadow-md transition-all duration-200 hover:scale-105">
+                    Sign In
+                  </Button>
+                </SignInButton>
+              </div>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
           </nav>
+     
         </div>
       )}
     </div>
