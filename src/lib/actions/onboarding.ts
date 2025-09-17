@@ -1,7 +1,8 @@
 "use server";
 import { clerkClient } from "@clerk/nextjs/server";
-import prisma from "../prisma";
+// import prisma from "../lib/prisma";
 import { revalidatePath } from "next/cache";
+import prisma from "../prisma";
 export async function createEmployee(
   department: string | undefined,
   clerkId: string,

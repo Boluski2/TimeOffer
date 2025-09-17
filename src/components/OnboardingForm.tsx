@@ -124,7 +124,6 @@ const OnboardingForm = ({
       if (response?.success) {
         console.log("Employee created successfully");
         canRedirect = true;
-        window.location.href = '/employee';
       }
     } catch (error: unknown) {
       console.error(`Error creating employee: ${error}`);
@@ -165,7 +164,6 @@ const OnboardingForm = ({
       if (response?.success) {
         console.log("Admin created successfully");
         canRedirect = true;
-        window.location.href = '/admin';
       }
     } catch (error) {
       console.error(`Error creating admin: ${error}`);
@@ -265,7 +263,7 @@ const OnboardingForm = ({
                       <FormItem>
                         <FormLabel>First Name</FormLabel>
                         <FormControl>
-                          <Input {...field}  className="bg-gray-100" />
+                          <Input {...field} disabled className="bg-gray-100" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -278,7 +276,7 @@ const OnboardingForm = ({
                       <FormItem>
                         <FormLabel>Last Name</FormLabel>
                         <FormControl>
-                          <Input {...field}  className="bg-gray-100" />
+                          <Input {...field} disabled className="bg-gray-100" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -372,7 +370,7 @@ const OnboardingForm = ({
                           <FormControl>
                             <Input
                               {...field}
-                              // disabled
+                              disabled
                               className="bg-gray-100"
                             />
                           </FormControl>
@@ -389,7 +387,7 @@ const OnboardingForm = ({
                           <FormControl>
                             <Input
                               {...field}
-                              // disabled
+                              disabled
                               className="bg-gray-100"
                             />
                           </FormControl>
