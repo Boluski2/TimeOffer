@@ -2,174 +2,25 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ArrowRight, CalendarDays, CircleCheck, Clock3, KeyRound, Users } from "lucide-react";
 
-const page = async () => {
+export default async function AdminDashboard() {
   const { userId } = await auth();
-
-  if (!userId) {
-    redirect("/");
-  }
-
-  const adminUser = await prisma.user.findUnique({
-    where: {
-      clerkId: userId,
-    },
-    select: {
-      companyId: true,
-      company: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
-
-  if (!adminUser) {
-    redirect("/onboarding");
-  }
-
-  const companyId = adminUser.companyId;
-  const companyName = adminUser.company?.name;
-
-  const pendingRequestsCount = await prisma.timeOffRequest.count({
-    where: {
-      employee: {
-        companyId: companyId,
-      },
-      status: "PENDING",
-    },
-  });
-
-  const approvedRequestsCount = await prisma.timeOffRequest.count({
-    where: {
-      employee: {
-        companyId: companyId,
-      },
-      status: "APPROVED",
-    },
-  });
-
-  const employeeCount = await prisma.user.count({
-    where: {
-      companyId,
-      role: {
-        in: ["EMPLOYEE", "ADMIN"],
-      },
-    },
-  });
-
-  const activeInvitationCodesCount = await prisma.code.count({
-    where: {
-      used: false,
-      companyId,
-    },
-  });
-
-  const data = [
-    {
-      title: "Pending Requests",
-      data: pendingRequestsCount,
-    },
-    {
-      title: "Approved Requests",
-      data: approvedRequestsCount,
-    },
-    {
-      title: "Employee Count",
-      data: employeeCount,
-    },
-    {
-      title: "Active Invitation Codes",
-      data: activeInvitationCodesCount,
-    },
-  ];
-
-  return (
-    <div className="space-y-8 mt-12">
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold">{companyName} Dashboard</h1>
-        <p className="text-gray-500">Manage your company and employees</p>
-      </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {data?.map((item) => {
-          return (
-            <Card key={item.title}>
-              <CardContent className="p-6">
-                <p className="text-sm text-gray-500">{item.title}</p>
-                <h3 className="text-2xl font-semibold">{item.data}</h3>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-      <div className="grid gap-6 md:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Time Off Requests</CardTitle>
-            <CardDescription>Manage employee time off requests</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col space-y-2">
-              <Button asChild>
-                <Link href="/admin/time-off-requests">View all requests</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Company Settings</CardTitle>
-            <CardDescription>Manage company configuration</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col space-y-2">
-              <Button asChild>
-                <Link href="/admin/company-settings">General settings</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/admin/company-settings/holidays">
-                  Company Holidays
-                </Link>
-              </Button>
-              <Button asChild>
-                <Link href="/admin/company-settings/working-days">
-                  Working Days
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Team management</CardTitle>
-            <CardDescription>Manage your company&apos;s team</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col space-y-2">
-              <Button asChild>
-                <Link href="/admin/employees">View Employees</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/admin/invitation-codes">Invitation Codes</Link>
-              </Button>
-              <p className="text-sm text-gray-500 mt-2">
-                You have {activeInvitationCodesCount} active invitation code
-                {activeInvitationCodesCount !== 1 ? "s" : ""}.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-};
-
-export default page;
+  if (!userId) redirect("/");
+  const admin = await prisma.user.findUnique({ where: { clerkId: userId }, select: { companyId: true, company: { select: { name: true } } } });
+  if (!admin) redirect("/onboarding");
+  const [pending, approved, people, activeInvitations, upcoming] = await Promise.all([
+    prisma.timeOffRequest.count({ where: { employee: { companyId: admin.companyId }, status: "PENDING" } }),
+    prisma.timeOffRequest.count({ where: { employee: { companyId: admin.companyId }, status: "APPROVED" } }),
+    prisma.user.count({ where: { companyId: admin.companyId, role: { in: ["EMPLOYEE", "ADMIN"] } } }),
+    prisma.code.count({ where: { companyId: admin.companyId, used: false } }),
+    prisma.timeOffRequest.findMany({ where: { employee: { companyId: admin.companyId }, status: "APPROVED", endDate: { gte: new Date() } }, include: { employee: { select: { firstName: true, lastName: true } } }, orderBy: { startDate: "asc" }, take: 4 }),
+  ]);
+  const stats = [{label:"Awaiting review",value:pending,icon:Clock3,tone:"gold"},{label:"Approved requests",value:approved,icon:CircleCheck,tone:"green"},{label:"People in your team",value:people,icon:Users,tone:"blue"},{label:"Active invitation codes",value:activeInvitations,icon:KeyRound,tone:"blue"}];
+  return <div className="workspace-page">
+    <div className="workspace-heading"><div><div className="eyebrow">YOUR WORKSPACE</div><h1>{admin.company?.name || "Team overview"}</h1><p>A clear view of what your people need and what’s coming up.</p></div><Link href="/admin/time-off-requests" className="button button-dark">Review requests <ArrowRight size={15}/></Link></div>
+    <div className="overview-stats">{stats.map(({label,value,icon:Icon,tone})=><div className="overview-stat" key={label}><span className={`stat-icon ${tone}`}><Icon size={17}/></span><span className="stat-label">{label}</span><b>{value}</b></div>)}</div>
+    <div className="overview-columns"><section className="overview-panel"><div className="panel-heading"><div><h2>Coming up</h2><p>Approved time away on the horizon</p></div><Link href="/admin/team-calendar">Team calendar <ArrowRight size={13}/></Link></div>{upcoming.length ? <div className="upcoming-list">{upcoming.map((item)=><div className="upcoming-item" key={item.id}><span className="upcoming-avatar">{item.employee.firstName.charAt(0)}{item.employee.lastName.charAt(0)}</span><div><b>{item.employee.firstName} {item.employee.lastName}</b><small>{item.type.toLowerCase()} · {item.workingDaysCount} working days</small></div><span className="upcoming-date">{item.startDate.toLocaleDateString("en",{month:"short",day:"numeric",timeZone:"UTC"})}</span></div>)}</div>:<div className="overview-empty"><CalendarDays size={20}/><span>No approved leave coming up yet.</span></div>}</section>
+      <section className="overview-panel shortcuts-panel"><div className="panel-heading"><div><h2>Team management</h2><p>Manage your people and invitations</p></div></div><Link href="/admin/employees" className="shortcut-row"><span className="shortcut-symbol"><Users size={16}/></span><span><b>View Employees</b><small>Manage your team and balances</small></span><ArrowRight size={15}/></Link><Link href="/admin/invitation-codes" className="shortcut-row"><span className="shortcut-symbol"><KeyRound size={16}/></span><span><b>Invitation Codes</b><small>{activeInvitations} active code{activeInvitations === 1 ? "" : "s"} available</small></span><ArrowRight size={15}/></Link><Link href="/admin/company-settings" className="shortcut-row"><span className="shortcut-symbol"><CalendarDays size={16}/></span><span><b>Company settings</b><small>Working days, holidays, and profile</small></span><ArrowRight size={15}/></Link></section></div>
+  </div>;
+}

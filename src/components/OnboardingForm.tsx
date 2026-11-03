@@ -114,6 +114,8 @@ const OnboardingForm = ({
 
     try {
       const response = await createEmployee(
+        data.firstName,
+        data.lastName,
         data.department || undefined,
         user.id,
         data.invitationCode
@@ -155,6 +157,8 @@ const OnboardingForm = ({
 
     try {
       const response = await createAdmin(
+        data.firstName,
+        data.lastName,
         data.companyName,
         data.companyWebsite || "",
         data.companyLogo || "",
@@ -196,7 +200,7 @@ const OnboardingForm = ({
           Complete your account setup
         </CardTitle>
         <CardDescription>
-          Welcome to TimeOffer! Let&apos;s get you onboarded.
+          Welcome to Daymark! Let&apos;s get you onboarded.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -263,7 +267,7 @@ const OnboardingForm = ({
                       <FormItem>
                         <FormLabel>First Name</FormLabel>
                         <FormControl>
-                          <Input {...field} disabled className="bg-gray-100" />
+                          <Input {...field} autoComplete="given-name" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -276,7 +280,7 @@ const OnboardingForm = ({
                       <FormItem>
                         <FormLabel>Last Name</FormLabel>
                         <FormControl>
-                          <Input {...field} disabled className="bg-gray-100" />
+                          <Input {...field} autoComplete="family-name" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -370,8 +374,7 @@ const OnboardingForm = ({
                           <FormControl>
                             <Input
                               {...field}
-                              disabled
-                              className="bg-gray-100"
+                              autoComplete="given-name"
                             />
                           </FormControl>
                           <FormMessage />
@@ -379,7 +382,7 @@ const OnboardingForm = ({
                       )}
                     />
                     <FormField
-                      control={employeeForm.control}
+                      control={adminForm.control}
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
@@ -387,8 +390,7 @@ const OnboardingForm = ({
                           <FormControl>
                             <Input
                               {...field}
-                              disabled
-                              className="bg-gray-100"
+                              autoComplete="family-name"
                             />
                           </FormControl>
                           <FormMessage />
@@ -397,7 +399,7 @@ const OnboardingForm = ({
                     />
                   </div>
                   <FormField
-                    control={employeeForm.control}
+                    control={adminForm.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem>

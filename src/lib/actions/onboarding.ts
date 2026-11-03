@@ -4,13 +4,18 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import prisma from "../prisma";
 export async function createEmployee(
+  firstName: string,
+  lastName: string,
   department: string | undefined,
   clerkId: string,
   invitationCode: string
 ) {
   try {
-    const user = await (await clerkClient()).users.getUser(clerkId);
-    if (!user || !user.firstName || !user.lastName) {
+    const client = await clerkClient();
+    const user = await client.users.getUser(clerkId);
+    const cleanFirstName = firstName.trim();
+    const cleanLastName = lastName.trim();
+    if (!user || !cleanFirstName || !cleanLastName) {
       throw new Error("User not found");
     }
 
@@ -24,6 +29,11 @@ export async function createEmployee(
     if (!code) {
       throw new Error("Invalid invitation code");
     }
+
+    await client.users.updateUser(user.id, {
+      firstName: cleanFirstName,
+      lastName: cleanLastName,
+    });
 
     await (
       await clerkClient()
@@ -39,8 +49,8 @@ export async function createEmployee(
       data: {
         clerkId: user.id,
         email: user.emailAddresses[0].emailAddress,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        firstName: cleanFirstName,
+        lastName: cleanLastName,
         role: "EMPLOYEE",
         department: department || null,
         companyId: code.companyId,
@@ -70,17 +80,27 @@ export async function createEmployee(
 }
 
 export async function createAdmin(
+  firstName: string,
+  lastName: string,
   companyName: string,
   companyWebsite: string,
   companyLogo: string,
   clerkId: string
 ) {
   try {
-    const user = await (await clerkClient()).users.getUser(clerkId);
+    const client = await clerkClient();
+    const user = await client.users.getUser(clerkId);
+    const cleanFirstName = firstName.trim();
+    const cleanLastName = lastName.trim();
 
-    if (!user || !user.firstName || !user.lastName) {
+    if (!user || !cleanFirstName || !cleanLastName) {
       throw new Error("User not found");
     }
+
+    await client.users.updateUser(user.id, {
+      firstName: cleanFirstName,
+      lastName: cleanLastName,
+    });
 
     const company = await prisma.company.create({
       data: {
@@ -104,8 +124,8 @@ export async function createAdmin(
       data: {
         clerkId: user.id,
         email: user.emailAddresses[0].emailAddress,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        firstName: cleanFirstName,
+        lastName: cleanLastName,
         role: "ADMIN",
         companyId: company.id,
       },

@@ -56,7 +56,7 @@ export default function MobileMenu() {
                   <div className="flex gap-2 md:gap-4">
             <SignedOut>
               <div className="md:block">
-                <SignInButton>
+                <SignInButton forceRedirectUrl="/onboarding">
                   <Button variant="ghost" className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 text-white border-2 border-blue-700 shadow-md transition-all duration-200 hover:scale-105">
                     Sign In
                   </Button>

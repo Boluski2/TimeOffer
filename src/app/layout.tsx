@@ -4,7 +4,6 @@ import {
 } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = Geist({
@@ -18,8 +17,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'TimeOffer',
-  description: 'Created by Adebolu',
+  title: { default: 'Daymark — time away, well taken', template: '%s · Daymark' },
+  description: 'A calmer way for teams to request leave, plan around each other, and keep time off clear.',
 }
 
 export default function RootLayout({
@@ -31,9 +30,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <MaxWidthWrapper>
-            {children}
-          </MaxWidthWrapper>
+          {children}
           <Toaster />
         </body>
       </html>
