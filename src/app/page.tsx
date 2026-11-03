@@ -2,7 +2,7 @@ import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { ArrowRight, CalendarDays, Check, ChevronRight, CircleCheck, Compass, Globe2, Leaf, ShieldCheck, Sparkles, Users, WalletCards } from "lucide-react";
+import { ArrowRight, CalendarDays, Check, ChevronRight, CircleCheck, Globe2, ShieldCheck, Users, WalletCards } from "lucide-react";
 
 function Mark() {
   return <span className="daymark-mark" aria-hidden="true"><span /><span /><span /><span /></span>;
