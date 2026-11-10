@@ -306,6 +306,14 @@ export async function updateEmployeeAllowance({
     if (!adminUser || adminUser.role !== "ADMIN") {
       throw new Error("Unauthorized");
     }
+    if (!Number.isInteger(availableDays) || availableDays < 0 || availableDays > 365) {
+      throw new Error("Allowance must be a whole number between 0 and 365");
+    }
+    const employee = await prisma.user.findFirst({
+      where: { id: employeeId, companyId: adminUser.companyId },
+      select: { id: true },
+    });
+    if (!employee) throw new Error("Employee not found in your company");
     await prisma.user.update({
       where: {
         id: employeeId,
@@ -438,30 +446,34 @@ export async function updateTimeOffRequestStatus({
       );
     }
 
-    const updatedRequest = await prisma.timeOffRequest.update({
-      where: {
-        id: requestId,
-      },
-      data: {
-        status,
-        notes,
-        managerId: user.id,
-      },
-    });
-
-    if (status === "APPROVED") {
-      await prisma.user.update({
-        where: {
-          id: request.employeeId,
-        },
-        data: {
-          availableDays: {
-            decrement: updatedRequest.workingDaysCount,
-          },
-        },
-      });
+    if (request.status !== "PENDING") {
+      throw new Error("This request has already been reviewed");
     }
+
+    const updatedRequest = await prisma.$transaction(async (tx) => {
+      // Conditional status update makes the decision and balance deduction
+      // idempotent under retries or two managers acting at the same time.
+      const changed = await tx.timeOffRequest.updateMany({
+        where: { id: requestId, status: "PENDING" },
+        data: { status, notes: notes?.trim().slice(0, 2000), managerId: user.id },
+      });
+      if (changed.count !== 1) throw new Error("This request has already been reviewed");
+
+      if (status === "APPROVED") {
+        const balance = await tx.user.updateMany({
+          where: { id: request.employeeId, availableDays: { gte: request.workingDaysCount } },
+          data: { availableDays: { decrement: request.workingDaysCount } },
+        });
+        if (balance.count !== 1) throw new Error("Employee does not have enough available days");
+      }
+
+      return tx.timeOffRequest.findUniqueOrThrow({ where: { id: requestId } });
+    });
     revalidatePath("/admin/time-off-requests");
+    revalidatePath(`/admin/time-off-requests/${requestId}`);
+    revalidatePath("/admin");
+    revalidatePath("/employee");
+    revalidatePath("/employee/my-requests");
 
     return updatedRequest;
   } catch (error) {
